@@ -1,0 +1,2 @@
+class TGroupMentionThread < ApplicationRecord
+end

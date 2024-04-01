@@ -1,0 +1,97 @@
+version: '3.7'
+x-rails-base: &rails_base
+  build: ./
+  environment:
+    RAILS_ENV: development
+    RACK_ENV: development
+    SECRET: ab96872805a9630e080e03e1909738ab96c9233e702895685bfebd54d4c03ffc
+    RAILS_LOG_TO_STDOUT: 'true'
+    TZ: Asia/Tokyo
+  volumes:
+    - ./:/app
+    - bundle_api:/app/vendor/bundle
+  links:
+    - slack_db
+  depends_on:
+    - slack_db
+  tty: true
+  stdin_open: true
+services:
+  slack_api:
+    container_name: slack_api
+    <<: *rails_base
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails server -b '0.0.0.0'"
+    ports:
+      - 8000:3000
+    networks:
+      - slack-network
+  salck_ui:
+    container_name: salck_ui
+    build: ../slack_app_ui
+    environment:
+      RAILS_ENV: development
+      RACK_ENV: development
+      RAILS_LOG_TO_STDOUT: 'true'
+      TZ: Asia/Tokyo
+    volumes:
+      - ../slack_app_ui:/app
+      - bundle_ui:/app/vendor/bundle
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails server -b '0.0.0.0'"
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    depends_on:
+      - slack_db
+      - slack_api
+    networks:
+      - slack-network
+  slack_phpmyadmin:
+    container_name: slack_phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: slack_db
+      PMA_USER: root
+      PMA_PASSWORD: password
+      UPLOAD_LIMIT: 600M
+      MEMORY_LIMIT: 256M
+      max_execution_time: 1000
+    ports:
+      - 8080:80
+    depends_on:
+      - slack_db
+    networks:
+      - slack-network
+  slack_db:
+    container_name: slack_db
+    image: mysql:8.0.27
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql:/etc/mysql/conf.d
+      - mysql_data:/var/lib/mysql
+    command: --default-time-zone=Asia/Tokyo --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'slack_development'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
+    networks:
+      - slack-network
+  mailhog:
+    # platform: linux/x86_64 # For Macbook pro M1 Chip
+    container_name: slack_mailhog
+    image: mailhog/mailhog
+    ports:
+      - '8025:8025'
+    networks:
+      - slack-network
+volumes:
+  bundle_api:
+  bundle_ui:
+  mysql_data:
+networks:
+  slack-network:
+    driver: bridge

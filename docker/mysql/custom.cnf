@@ -1,0 +1,15 @@
+[mysql]
+default-character-set=utf8mb4
+
+[client]
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-server=utf8mb4
+skip-character-set-client-handshake
+collation-server=utf8mb4_general_ci
+init-connect=SET NAMES utf8mb4
+explicit_defaults_for_timestamp=true
+default_authentication_plugin=mysql_native_password
+sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+default-time-zone=Asia/Tokyo

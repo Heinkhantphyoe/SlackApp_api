@@ -1,0 +1,2 @@
+class TDirectMessage < ApplicationRecord
+end

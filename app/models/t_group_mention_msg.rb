@@ -1,0 +1,2 @@
+class TGroupMentionMsg < ApplicationRecord
+end

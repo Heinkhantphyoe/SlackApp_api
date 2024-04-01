@@ -1,0 +1,2 @@
+class TUserWorkspacesController < ApplicationController
+end

@@ -1,0 +1,2 @@
+class TGroupStarThread < ApplicationRecord
+end

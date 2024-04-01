@@ -1,0 +1,2 @@
+class TUserChannelController < ApplicationController
+end

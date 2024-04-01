@@ -1,0 +1,2 @@
+class TUserWorkspace < ApplicationRecord
+end

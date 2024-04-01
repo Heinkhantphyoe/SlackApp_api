@@ -1,0 +1,2 @@
+class TGroupStarMsg < ApplicationRecord
+end

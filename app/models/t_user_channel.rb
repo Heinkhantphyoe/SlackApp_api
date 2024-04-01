@@ -1,0 +1,2 @@
+class TUserChannel < ApplicationRecord
+end

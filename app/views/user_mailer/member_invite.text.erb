@@ -1,0 +1,3 @@
+Hi <%= @i_user.email %>,
+Welcome to the Slack App! Click on the link below to confirm your account:
+<%= "#{CONSTANTS::SLACK_APP_LINK}?email=#{@i_user.email}&workspaceid=#{@i_workspace.id}&channelid=#{@i_channel.id}&workspace_name=#{@i_workspace.workspace_name}&channel_name=#{@i_channel.channel_name}" %>
