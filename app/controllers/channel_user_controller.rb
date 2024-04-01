@@ -42,7 +42,7 @@ class ChannelUserController < ApplicationController
     @t_user_channel.channelid = params[:s_channel_id]
     if @t_user_channel.save
       status = true; 
-      render json: @t_user_channel, status: :created
+      render json: @t_user_channel, status: :ok
     end
   end
   
