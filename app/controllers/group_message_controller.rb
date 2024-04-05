@@ -108,7 +108,7 @@ def deletemsg
 
     mention_names.each do |mention_name|
 
-    mention_name[0] = ''
+    #mention_name[0] = ''
     @mention_user = MUser.find_by(name: mention_name)
 
     unless @mention_user.nil?
