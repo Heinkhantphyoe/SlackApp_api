@@ -1,7 +1,7 @@
 class GroupMessageController < ApplicationController
   before_action :authenticate
   def show 
-
+    
     @t_group_message = TGroupMessage.new
     @t_group_message.groupmsg = params[:message]
     @t_group_message.m_user_id = params[:user_id]
@@ -10,8 +10,9 @@ class GroupMessageController < ApplicationController
     
      mention_names = params[:mention_name]
 
+
     mention_names.each do |mention_name|
-      mention_name[0] = ''
+      #mention_name[0] = ''
       @memtion_user = MUser.find_by(name: mention_name)
   
       unless @memtion_user.nil?
